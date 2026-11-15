@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Путь мёда — концепт</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Unbounded:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A0908; --bg2:#16130F; --ink:#F4EDE2; --mute:#A39887; --dim:#6E6457;
+    --amber:#E8A33D; --spark:#FFC86B; --ember:#E2572B;
+    --display:"Unbounded","Arial Black",system-ui,sans-serif;
+    --text:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+  body{background:var(--bg);font-family:var(--text);overflow-x:hidden}
+  img{display:block;max-width:none;user-select:none;-webkit-user-drag:none}
+
+  /* ---------- top bar ---------- */
+  .bar{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;justify-content:space-between;align-items:center;
+       padding:max(18px,env(safe-area-inset-top)) clamp(16px,4vw,48px) 0;pointer-events:none;
+       font:600 12px/1 var(--text);letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+  .bar b{color:var(--ink);font-weight:600}
+  .bar .count{font-variant-numeric:tabular-nums}
+
+  /* ---------- progress rail ---------- */
+  .rail{position:fixed;right:clamp(10px,2vw,24px);top:50%;transform:translateY(-50%);z-index:20;
+        display:flex;flex-direction:column;gap:6px;align-items:center}
+  .rail::before{content:"";position:absolute;top:8px;bottom:8px;left:50%;width:1px;background:rgba(244,237,226,.12)}
+  .rail button{position:relative;width:44px;height:30px;border:0;background:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .rail button::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;
+        transform:translate(-50%,-50%);background:rgba(244,237,226,.28);transition:all .4s}
+  .rail button.key::after{background:rgba(232,163,61,.45)}
+  .rail button.on::after{width:10px;height:10px;background:var(--amber);box-shadow:0 0 14px var(--amber)}
+  .rail button.off{opacity:.35;pointer-events:none}
+
+  /* ---------- scene 01 : hero ---------- */
+  .hero{height:260vh;position:relative}
+  .hero .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+  .hero .photo{position:absolute;left:50%;top:50%;width:min(118vh,118vw);aspect-ratio:2032/1970;
+        transform:translate(-50%,-50%);will-change:transform,filter}
+  .hero .photo img{width:100%;height:100%;object-fit:cover}
+  .hero .photo{-webkit-mask-image:radial-gradient(closest-side,#000 62%,transparent 100%);mask-image:radial-gradient(closest-side,#000 62%,transparent 100%)}
+  .hero .light{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;
+        background:radial-gradient(60% 45% at 70% 30%,rgba(255,200,107,.55),transparent 70%)}
+  .hero h1{position:absolute;left:clamp(16px,5vw,72px);bottom:clamp(90px,16vh,190px);
+        font:800 clamp(64px,17vw,260px)/.82 var(--display);letter-spacing:-.04em;padding-top:.22em;
+        background:linear-gradient(180deg,#FFE3A8 0%,var(--amber) 55%,#9A4E12 100%);
+        -webkit-background-clip:text;background-clip:text;color:transparent;will-change:transform,opacity}
+  .hero .sub{position:absolute;left:clamp(16px,5vw,72px);bottom:clamp(40px,8vh,96px);max-width:30ch;
+        font:500 clamp(16px,1.6vw,21px)/1.4 var(--text);color:var(--ink)}
+  .hero .sub span{color:var(--mute)}
+  .hero .kicker{position:absolute;left:clamp(16px,5vw,72px);top:clamp(70px,13vh,140px);
+        font:700 clamp(14px,1.4vw,18px)/1.25 var(--display);letter-spacing:.02em;max-width:16ch;color:var(--ink)}
+  .hero .kicker em{font-style:normal;color:var(--amber)}
+  .hint{position:absolute;right:clamp(64px,8vw,110px);bottom:clamp(40px,8vh,96px);
+        font:600 12px/1 var(--text);letter-spacing:.24em;text-transform:uppercase;color:var(--mute);
+        display:flex;gap:12px;align-items:center}
+  .hint i{display:block;width:1px;height:46px;background:linear-gradient(var(--amber),transparent);
+        animation:drip 2.2s ease-in-out infinite;transform-origin:top}
+  @keyframes drip{0%{transform:scaleY(0)}50%{transform:scaleY(1)}100%{transform:scaleY(1);opacity:0}}
+
+  /* ---------- scene 02 : anatomy ---------- */
+  .anatomy{height:820vh;position:relative}
+  .anatomy .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;
+        background:radial-gradient(80% 70% at 55% 50%,#1b1610 0%,var(--bg) 70%)}
+  .layer{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform,opacity}
+  .layer img{width:100%;height:100%}
+  .layer{-webkit-mask-image:radial-gradient(farthest-side,#000 70%,transparent 100%);mask-image:radial-gradient(farthest-side,#000 70%,transparent 100%)}
+  .scrim{position:absolute;inset:0;pointer-events:none;
+        background:linear-gradient(0deg,rgba(10,9,8,.92) 0%,rgba(10,9,8,.55) 26%,transparent 46%),
+                   linear-gradient(180deg,rgba(10,9,8,.85) 0%,transparent 26%)}
+  .vignette{position:absolute;inset:0;pointer-events:none;
+        background:radial-gradient(75% 75% at 50% 50%,transparent 45%,rgba(10,9,8,.92) 100%)}
+  .rim{position:absolute;inset:0;pointer-events:none;mix-blend-mode:soft-light;opacity:.0;
+        background:radial-gradient(45% 55% at 80% 20%,rgba(255,190,90,.8),transparent 70%)}
+  .bignum{position:absolute;right:clamp(64px,8vw,120px);bottom:clamp(30px,6vh,80px);
+        font:800 clamp(110px,24vw,340px)/.8 var(--display);letter-spacing:-.06em;color:transparent;
+        -webkit-text-stroke:1.5px rgba(232,163,61,.55);pointer-events:none;will-change:opacity,transform}
+  .head{position:absolute;left:clamp(16px,5vw,72px);top:clamp(80px,14vh,150px);max-width:min(560px,46vw);pointer-events:none}
+  .head .eyebrow{font:600 12px/1 var(--text);letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:16px}
+  .head h2{font:700 clamp(30px,4.6vw,64px)/1.0 var(--display);letter-spacing:-.03em}
+  .step{position:absolute;left:clamp(16px,5vw,72px);bottom:clamp(36px,9vh,110px);width:min(420px,44vw);
+        opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;pointer-events:none}
+  .step.on{opacity:1;transform:none}
+  .step .n{font:700 13px/1 var(--display);color:var(--amber);letter-spacing:.1em;margin-bottom:12px}
+  .step h3{font:700 clamp(24px,3vw,40px)/1.05 var(--display);letter-spacing:-.02em;margin-bottom:12px}
+  .step p{font:400 clamp(16px,1.55vw,20px)/1.45 var(--text);color:#D9CFC0}
+  .step p b{color:var(--spark);font-weight:600}
+
+  /* callouts drawn in screen space */
+  .pin{position:absolute;left:0;top:0;pointer-events:none;opacity:0;transition:opacity .45s}
+  .pin.on{opacity:1}
+  .pin .dot{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;
+        background:var(--spark);box-shadow:0 0 0 6px rgba(255,200,107,.18),0 0 18px var(--amber)}
+  .pin .ln{position:absolute;height:1px;background:linear-gradient(90deg,var(--spark),rgba(255,200,107,.2));transform-origin:0 0}
+  .pin .lb{position:absolute;white-space:nowrap;font:600 clamp(13px,1.3vw,16px)/1 var(--text);letter-spacing:.06em;
+        padding:9px 12px;border:1px solid rgba(255,200,107,.35);background:rgba(10,9,8,.72);
+        -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-radius:999px}
+
+  /* ---------- outro ---------- */
+  .next{height:100vh;display:grid;place-items:center;text-align:center;padding:0 16px;
+        background:linear-gradient(var(--bg),#120e09)}
+  .next p{font:600 12px/1 var(--text);letter-spacing:.24em;text-transform:uppercase;color:var(--mute);margin-bottom:18px}
+  .next h2{font:700 clamp(28px,5vw,70px)/1 var(--display);letter-spacing:-.03em}
+  .next h2 em{font-style:normal;color:var(--amber)}
+  .note{max-width:62ch;margin:28px auto 0;font:400 14px/1.5 var(--text);color:var(--dim)}
+
+  /* ---------- portrait / phone ---------- */
+  @media (max-aspect-ratio:1/1){
+    .head{max-width:calc(100vw - 90px)}
+    .step{width:auto;right:70px}
+    .bignum{right:56px;bottom:auto;top:clamp(170px,26vh,260px);font-size:clamp(100px,30vw,260px)}
+    .hint{right:62px}
+  }
+  @media (prefers-reduced-motion:reduce){ .hint i{animation:none} .step{transition:none} }
+</style>
+</head>
+<body>
+
+<div class="bar"><span><b>Путь мёда</b> &nbsp;·&nbsp; от цветка до банки</span><span class="count" id="count">01 / 11</span></div>
+
+<nav class="rail" id="rail" aria-label="Сцены"></nav>
+
+<!-- ======================= 01 · THE JOURNEY BEGINS ======================= -->
+<section class="hero" id="s1">
+  <div class="stage">
+    <div class="photo" id="heroPhoto"><img src="assets/bee-face.jpg" alt="Голова медоносной пчелы анфас: усики, большие глаза и хоботок"></div>
+    <div class="light" id="heroLight"></div>
+    <div class="kicker" id="heroKicker">Одна пчела за всю жизнь<br>делает <em>1/12</em> чайной ложки мёда</div>
+    <h1 id="heroTitle">МЁД</h1>
+    <p class="sub" id="heroSub">Путешествие от цветка до банки. <span>Листай вниз — и пчела покажет, как это работает.</span></p>
+    <div class="hint" id="heroHint"><i></i>Листай</div>
+  </div>
+</section>
+
+<!-- ======================= 02 · MEET THE HONEYBEE ======================= -->
+<section class="anatomy" id="s2">
+  <div class="stage" id="aStage">
+    <div class="layer" id="lDorsal"><img src="assets/bee-dorsal.jpg" alt="Медоносная пчела, вид сверху, крылья расправлены"></div>
+    <div class="layer" id="lHead"><img src="assets/bee-head-side.jpg" alt="Голова пчелы сбоку: глаз, усик, хоботок"></div>
+    <div class="rim" id="aRim"></div>
+    <div class="vignette"></div>
+    <div class="scrim"></div>
+    <div class="bignum" id="bignum">3</div>
+
+    <div class="head"><div class="eyebrow">02 · Знакомьтесь</div><h2>Медоносная пчела</h2></div>
+
+    <div class="step" data-i="0"><div class="n">ТЕЛО</div><h3>Три части тела</h3>
+      <p>Голова, грудь и брюшко. Так устроены <b>все насекомые</b>.</p></div>
+    <div class="step" data-i="1"><div class="n">01 · ГОЛОВА</div><h3>Голова</h3>
+      <p>Здесь глаза, усики и хоботок. Пчела <b>видит, нюхает и пьёт</b> головой.</p></div>
+    <div class="step" data-i="2"><div class="n">02 · ГРУДЬ</div><h3>Грудь — «мотор»</h3>
+      <p>К груди прикреплены <b>4 крыла и 6 ног</b>. Внутри — мышцы, которые машут крыльями.</p></div>
+    <div class="step" data-i="3"><div class="n">03 · КРЫЛЬЯ</div><h3>Четыре крыла</h3>
+      <p>Две пары: большие спереди, маленькие сзади. В полёте они <b>сцепляются крючочками</b> и работают как два крыла.</p></div>
+    <div class="step" data-i="4"><div class="n">04 · БРЮШКО</div><h3>Брюшко</h3>
+      <p>Внутри спрятан <b>медовый зобик</b> — мешочек для нектара. О нём — чуть дальше.</p></div>
+    <div class="step" data-i="5"><div class="n">05 · ГЛАЗА И УСИКИ</div><h3>Глаза и усики</h3>
+      <p>Каждый большой глаз собран <b>из тысяч крошечных глазков</b>. Ещё 3 простых глаза — на макушке. Усиками пчела чует запах цветов.</p></div>
+    <div class="step" data-i="6"><div class="n">06 · ХОБОТОК</div><h3>Хоботок</h3>
+      <p>Когда не нужен — сложен под головой. На конце — <b>мохнатый язычок</b>: он макается в нектар, и капля поднимается по хоботку.</p></div>
+  </div>
+</section>
+
+<section class="next">
+  <div>
+    <p>Дальше · 03</p>
+    <h2>Как машут <em>крылья</em></h2>
+    <p class="note">Концепт: первый экран и сцена 02. Пчела здесь — настоящие макрофото; в рабочей версии их место займёт выбранная 3D-модель, а фото останутся для сверхкрупных планов.</p>
+  </div>
+</section>
+
+<script>
+(() => {
+  const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+  const range=(p,a,b)=>clamp((p-a)/(b-a));
+
+  /* ---------- rail ---------- */
+  const scenes=["Начало","Пчела","Крылья","Хоботок","Цветок","Сбор нектара","Улей","Пасечник","Сорта мёда","Поделка","Финал"];
+  const keyScenes=new Set([4,5,6,7,8,9]); // scenes that carry the 5 required criteria
+  const rail=document.getElementById('rail');
+  scenes.forEach((name,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',`${i+1}. ${name}`);
+    if(keyScenes.has(i))b.classList.add('key'); if(i>1)b.classList.add('off');
+    b.onclick=()=>{const t=document.getElementById('s'+(i+1)); if(t) window.scrollTo({top:t.offsetTop,behavior:'smooth'});};
+    rail.appendChild(b);});
+  const dots=[...rail.children], count=document.getElementById('count');
+
+  /* ---------- hero ---------- */
+  const s1=document.getElementById('s1'), hP=document.getElementById('heroPhoto'), hL=document.getElementById('heroLight'),
+        hT=document.getElementById('heroTitle'), hS=document.getElementById('heroSub'), hK=document.getElementById('heroKicker'), hH=document.getElementById('heroHint');
+
+  /* ---------- anatomy ---------- */
+  const s2=document.getElementById('s2'), stage=document.getElementById('aStage');
+  const D={el:document.getElementById('lDorsal'),w:2032,h:1610}, H={el:document.getElementById('lHead'),w:2032,h:1272};
+  const rim=document.getElementById('aRim'), big=document.getElementById('bignum');
+  const steps=[...document.querySelectorAll('.step')];
+  // anatomical points in image-fraction coords (dorsal photo)
+  const P={head:[.50,.10],thorax:[.50,.30],abdomen:[.50,.66],wingL:[.17,.57],wingR:[.80,.55],leg:[.37,.77],legR:[.64,.79]};
+  // head-side photo points
+  const Q={eye:[.455,.27],antenna:[.605,.40],proboscis:[.81,.88]};
+  // camera keyframes for the dorsal layer: [progress, focusX, focusY, zoom]
+  const K=[[0,.5,.5,.72],[.12,.5,.5,.9],[.22,.5,.14,2.0],[.36,.5,.42,1.2],[.50,.27,.55,1.45],[.63,.5,.66,1.35],[.72,.5,.5,1.05]];
+  // which step / pins are visible over progress
+  const S=[[0,.12],[.14,.28],[.29,.43],[.44,.57],[.58,.70],[.76,.87],[.88,1.01]];
+  const pins=[
+    {on:[0,.12], at:'D', pts:['head','thorax','abdomen'], lbs:['голова','грудь','брюшко']},
+    {on:[.14,.28], at:'D', pts:['head'], lbs:['голова']},
+    {on:[.29,.43], at:'D', pts:['thorax','leg'], lbs:['грудь','нога · всего 6']},
+    {on:[.44,.57], at:'D', pts:['wingL','wingR'], lbs:['переднее крыло','заднее крыло']},
+    {on:[.58,.70], at:'D', pts:['abdomen'], lbs:['брюшко']},
+    {on:[.76,.87], at:'H', pts:['eye','antenna'], lbs:['сложный глаз','усик']},
+    {on:[.88,1.01], at:'H', pts:['proboscis'], lbs:['хоботок']},
+  ];
+    // build pin DOM
+  pins.forEach(p=>{p.dom=p.pts.map((k,j)=>{const g=document.createElement('div');g.className='pin';
+    g.innerHTML='<i class="dot"></i><i class="ln"></i><span class="lb"></span>';g.querySelector('.lb').textContent=p.lbs[j];
+    stage.appendChild(g);return g;});});
+
+  let vw=innerWidth, vh=innerHeight;
+  function fitBase(img,cover){ // px per image px for "contain" (or cover) fit
+    return cover?Math.max(vw/img.w,vh/img.h):Math.min(vw/img.w,vh/img.h); }
+  function placeLayer(L,fx,fy,zoom,cx,cy){ // focus point (fractions) placed at screen (cx,cy)
+    const s=fitBase(L,false)*zoom; const w=L.w*s,h=L.h*s;
+    const x=cx-fx*w, y=cy-fy*h;
+    L.el.style.width=L.w+'px'; L.el.style.height=L.h+'px';
+    L.el.style.transform=`translate3d(${x}px,${y}px,0) scale(${s})`;
+    return (pt)=>[x+pt[0]*w, y+pt[1]*h];
+  }
+  function camAt(p){ // interpolate keyframes
+    for(let i=0;i<K.length-1;i++){const a=K[i],b=K[i+1]; if(p<=b[0]){const t=ease(range(p,a[0],b[0])); return [lerp(a[1],b[1],t),lerp(a[2],b[2],t),lerp(a[3],b[3],t)];}}
+    const l=K[K.length-1]; return [l[1],l[2],l[3]];
+  }
+
+  let target=0, cur=0, raf=0;
+  function progressOf(sec){const r=sec.getBoundingClientRect(); return clamp(-r.top/(r.height-vh));}
+
+  function render(){
+    // ----- hero -----
+    const p1=progressOf(s1);
+    const z=lerp(.78,1.18,ease(p1)), lift=lerp(.35,1,range(p1,0,.45));
+    hP.style.transform=`translate(-50%,-50%) scale(${z})`;
+    hP.style.filter=`brightness(${lift}) contrast(1.08)`;
+    hL.style.opacity=range(p1,.05,.5);
+    hT.style.transform=`translateY(${-p1*18}vh)`; hT.style.opacity=1-range(p1,.55,.9);
+    hS.style.opacity=1-range(p1,.35,.6); hK.style.opacity=1-range(p1,.4,.7); hH.style.opacity=1-range(p1,0,.15);
+
+    // ----- anatomy -----
+    const p=cur;
+    const portrait=vw<vh;
+    const cx=portrait?vw*.5:vw*.6, cy=portrait?vh*.56:vh*.5;
+    const [fx,fy,zm]=camAt(p);
+    const toD=placeLayer(D,fx,fy,zm*(portrait?1.15:1),cx,cy);
+    // head-side macro: crossfade in at .72-.78, slow push-in, then pan to proboscis
+    const hp=range(p,.72,1);
+    const hfx=lerp(.48,.66,ease(range(p,.86,.95))), hfy=lerp(.5,.66,ease(range(p,.86,.95)));
+    const toH=placeLayer(H,hfx,hfy,lerp(1.05,1.45,ease(hp))*(portrait?1.6:1),cx,cy);
+    const xf=range(p,.72,.78);
+    D.el.style.opacity=1-xf; H.el.style.opacity=xf;
+    rim.style.opacity=.25+.5*Math.sin(p*Math.PI);
+    big.style.opacity=(1-range(p,.1,.16))*range(p,.0,.04);
+    big.style.transform=`translateY(${p*-40}px)`;
+
+    steps.forEach((s,i)=>s.classList.toggle('on',p>=S[i][0]&&p<S[i][1]));
+    pins.forEach(pn=>{const vis=p>=pn.on[0]&&p<pn.on[1]; const to=pn.at==='D'?toD:toH; const src=pn.at==='D'?P:Q;
+      pn.dom.forEach((g,j)=>{g.classList.toggle('on',vis); if(!vis)return;
+        const [x,y]=to(src[pn.pts[j]]); const side={leg:1,eye:1,wingR:1,antenna:1}; const right=side[pn.pts[j]]||(x<cx*1.02?-1:1);
+        const len=Math.min(140,vw*.1), dx=right*len, dy=-len*.45;
+        g.querySelector('.dot').style.transform=`translate(${x}px,${y}px)`;
+        const ln=g.querySelector('.ln'); ln.style.width=Math.hypot(dx,dy)+'px';
+        ln.style.transform=`translate(${x}px,${y}px) rotate(${Math.atan2(dy,dx)}rad)`;
+        const lb=g.querySelector('.lb'); const bw=lb.offsetWidth, bh=lb.offsetHeight;
+        const lx=clamp(x+dx-(right<0?bw:0),12,vw-bw-64), ly=clamp(y+dy-bh/2,70,vh-bh-12);
+        lb.style.transform=`translate(${lx}px,${ly}px)`; });});
+
+    // ----- rail -----
+    const r2=s2.getBoundingClientRect(); const active=r2.top<vh*.5?1:0;
+    dots.forEach((d,i)=>d.classList.toggle('on',i===active)); count.textContent=`0${active+1} / 11`;
+  }
+
+  function loop(){ // smooth the scrubbed progress a little (cheap, no library)
+    cur+= (target-cur)*0.14;
+    render();
+    if(Math.abs(target-cur)>0.0005) raf=requestAnimationFrame(loop); else {cur=target; render(); raf=0;}
+  }
+  function onScroll(){ target=progressOf(s2); if(!raf) raf=requestAnimationFrame(loop); }
+  addEventListener('scroll',onScroll,{passive:true});
+  addEventListener('resize',()=>{vw=innerWidth;vh=innerHeight;onScroll();});
+  onScroll();
+})();
+</script>
+</body>
+</html>
