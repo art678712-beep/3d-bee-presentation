@@ -15,14 +15,17 @@
     --text:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
-  body{background:var(--bg);font-family:var(--text);overflow-x:hidden}
+  html{background:var(--bg);color:var(--ink);color-scheme:dark;-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--ink);font:400 16px/1.45 var(--text);overflow-x:hidden}
+  h1,h2,h3,p,span,b,em,div{color:inherit}
+  /* readable type over photos: soft dark halo, keeps the dark look */
+  .head h2,.step h3,.hero .kicker,.hero .sub,.next h2{text-shadow:0 1px 2px rgba(0,0,0,.6),0 4px 28px rgba(0,0,0,.85)}
   img{display:block;max-width:none;user-select:none;-webkit-user-drag:none}
 
   /* ---------- top bar ---------- */
   .bar{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;justify-content:space-between;align-items:center;
        padding:max(18px,env(safe-area-inset-top)) clamp(16px,4vw,48px) 0;pointer-events:none;
-       font:600 12px/1 var(--text);letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+       font:600 12px/1 var(--text);letter-spacing:.22em;text-transform:uppercase;color:#C2B6A4;text-shadow:0 1px 8px rgba(0,0,0,.9)}
   .bar b{color:var(--ink);font-weight:600}
   .bar .count{font-variant-numeric:tabular-nums}
 
@@ -50,11 +53,12 @@
         font:800 clamp(64px,17vw,260px)/.82 var(--display);letter-spacing:-.04em;padding-top:.22em;
         background:linear-gradient(180deg,#FFE3A8 0%,var(--amber) 55%,#9A4E12 100%);
         -webkit-background-clip:text;background-clip:text;color:transparent;will-change:transform,opacity}
-  .hero .sub{position:absolute;left:clamp(16px,5vw,72px);bottom:clamp(40px,8vh,96px);max-width:30ch;
-        font:500 clamp(16px,1.6vw,21px)/1.4 var(--text);color:var(--ink)}
-  .hero .sub span{color:var(--mute)}
+  .hero .sub{color:var(--ink);position:absolute;left:clamp(16px,5vw,72px);bottom:clamp(40px,8vh,96px);max-width:30ch;
+        font:500 clamp(18px,1.7vw,22px)/1.45 var(--text);color:var(--ink)}
+  .hero .sub span{color:#CFC4B3}
   .hero .kicker{position:absolute;left:clamp(16px,5vw,72px);top:clamp(70px,13vh,140px);
-        font:700 clamp(14px,1.4vw,18px)/1.25 var(--display);letter-spacing:.02em;max-width:16ch;color:var(--ink)}
+        font:700 clamp(17px,1.6vw,21px)/1.3 var(--display);letter-spacing:.01em;max-width:17ch;color:var(--ink)}
+  .hero .scrim{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(10,9,8,.78) 0%,rgba(10,9,8,.35) 38%,transparent 60%),linear-gradient(0deg,rgba(10,9,8,.85) 0%,transparent 35%)}
   .hero .kicker em{font-style:normal;color:var(--amber)}
   .hint{position:absolute;right:clamp(64px,8vw,110px);bottom:clamp(40px,8vh,96px);
         font:600 12px/1 var(--text);letter-spacing:.24em;text-transform:uppercase;color:var(--mute);
@@ -82,37 +86,42 @@
         -webkit-text-stroke:1.5px rgba(232,163,61,.55);pointer-events:none;will-change:opacity,transform}
   .head{position:absolute;left:clamp(16px,5vw,72px);top:clamp(80px,14vh,150px);max-width:min(560px,46vw);pointer-events:none}
   .head .eyebrow{font:600 12px/1 var(--text);letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin-bottom:16px}
-  .head h2{font:700 clamp(30px,4.6vw,64px)/1.0 var(--display);letter-spacing:-.03em}
-  .step{position:absolute;left:clamp(16px,5vw,72px);bottom:clamp(36px,9vh,110px);width:min(420px,44vw);
+  .head h2{font:700 clamp(30px,4.6vw,64px)/1.0 var(--display);letter-spacing:-.03em;color:var(--ink);text-wrap:balance}
+  .step{position:absolute;left:clamp(16px,5vw,72px);bottom:clamp(28px,6vh,90px);width:min(460px,42vw);
+        padding:clamp(18px,2.2vw,26px) clamp(18px,2.4vw,28px);border-radius:20px;color:var(--ink);
+        background:linear-gradient(160deg,rgba(28,22,15,.86),rgba(10,9,8,.80));
+        border:1px solid rgba(255,200,107,.22);box-shadow:0 18px 50px rgba(0,0,0,.55);
+        -webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);
         opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;pointer-events:none}
   .step.on{opacity:1;transform:none}
   .step .n{font:700 13px/1 var(--display);color:var(--amber);letter-spacing:.1em;margin-bottom:12px}
-  .step h3{font:700 clamp(24px,3vw,40px)/1.05 var(--display);letter-spacing:-.02em;margin-bottom:12px}
-  .step p{font:400 clamp(16px,1.55vw,20px)/1.45 var(--text);color:#D9CFC0}
+  .step h3{font:700 clamp(24px,3vw,40px)/1.05 var(--display);letter-spacing:-.02em;margin-bottom:12px;color:#FFF7EA;text-shadow:none}
+  .step p{font:400 clamp(17px,1.6vw,20px)/1.5 var(--text);color:#E9E0D2}
   .step p b{color:var(--spark);font-weight:600}
 
   /* callouts drawn in screen space */
   .pin{position:absolute;left:0;top:0;pointer-events:none;opacity:0;transition:opacity .45s}
   .pin.on{opacity:1}
-  .pin .dot{position:absolute;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;
-        background:var(--spark);box-shadow:0 0 0 6px rgba(255,200,107,.18),0 0 18px var(--amber)}
-  .pin .ln{position:absolute;height:1px;background:linear-gradient(90deg,var(--spark),rgba(255,200,107,.2));transform-origin:0 0}
-  .pin .lb{position:absolute;white-space:nowrap;font:600 clamp(13px,1.3vw,16px)/1 var(--text);letter-spacing:.06em;
-        padding:9px 12px;border:1px solid rgba(255,200,107,.35);background:rgba(10,9,8,.72);
-        -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-radius:999px}
+  .pin .dot{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;
+        background:var(--spark);border:2px solid #0A0908;box-shadow:0 0 0 5px rgba(255,200,107,.28),0 0 20px var(--amber)}
+  .pin .ln{position:absolute;height:2px;margin-top:-1px;background:var(--spark);transform-origin:0 0;
+        box-shadow:0 0 0 1px rgba(10,9,8,.75),0 0 10px rgba(0,0,0,.6)}
+  .pin .lb{position:absolute;white-space:nowrap;font:600 clamp(15px,1.45vw,18px)/1 var(--text);letter-spacing:.02em;color:#FFF7EA;
+        padding:10px 15px;border:1px solid rgba(255,200,107,.6);background:rgba(10,9,8,.88);
+        box-shadow:0 6px 22px rgba(0,0,0,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:999px}
 
   /* ---------- outro ---------- */
   .next{height:100vh;display:grid;place-items:center;text-align:center;padding:0 16px;
         background:linear-gradient(var(--bg),#120e09)}
   .next p{font:600 12px/1 var(--text);letter-spacing:.24em;text-transform:uppercase;color:var(--mute);margin-bottom:18px}
-  .next h2{font:700 clamp(28px,5vw,70px)/1 var(--display);letter-spacing:-.03em}
+  .next h2{font:700 clamp(28px,5vw,70px)/1 var(--display);letter-spacing:-.03em;color:var(--ink)}
   .next h2 em{font-style:normal;color:var(--amber)}
-  .note{max-width:62ch;margin:28px auto 0;font:400 14px/1.5 var(--text);color:var(--dim)}
+  .note{max-width:62ch;margin:28px auto 0;font:400 15px/1.55 var(--text);color:#B8AD9C}
 
   /* ---------- portrait / phone ---------- */
   @media (max-aspect-ratio:1/1){
     .head{max-width:calc(100vw - 90px)}
-    .step{width:auto;right:70px}
+    .step{width:auto;right:64px;bottom:clamp(20px,3.5vh,48px)}
     .bignum{right:56px;bottom:auto;top:clamp(170px,26vh,260px);font-size:clamp(100px,30vw,260px)}
     .hint{right:62px}
   }
@@ -130,6 +139,7 @@
   <div class="stage">
     <div class="photo" id="heroPhoto"><img src="assets/bee-face.jpg" alt="Голова медоносной пчелы анфас: усики, большие глаза и хоботок"></div>
     <div class="light" id="heroLight"></div>
+    <div class="scrim"></div>
     <div class="kicker" id="heroKicker">Одна пчела за всю жизнь<br>делает <em>1/12</em> чайной ложки мёда</div>
     <h1 id="heroTitle">МЁД</h1>
     <p class="sub" id="heroSub">Путешествие от цветка до банки. <span>Листай вниз — и пчела покажет, как это работает.</span></p>
@@ -199,11 +209,12 @@
   const s2=document.getElementById('s2'), stage=document.getElementById('aStage');
   const D={el:document.getElementById('lDorsal'),w:2032,h:1610}, H={el:document.getElementById('lHead'),w:2032,h:1272};
   const rim=document.getElementById('aRim'), big=document.getElementById('bignum');
-  const steps=[...document.querySelectorAll('.step')];
+  const steps=[...document.querySelectorAll('.step')]; const headEl=document.querySelector('#s2 .head');
+  let panelH=0; const measure=()=>{panelH=Math.max(...steps.map(s=>s.offsetHeight));};
   // anatomical points in image-fraction coords (dorsal photo)
   const P={head:[.50,.10],thorax:[.50,.30],abdomen:[.50,.66],wingL:[.17,.57],wingR:[.80,.55],leg:[.37,.77],legR:[.64,.79]};
   // head-side photo points
-  const Q={eye:[.455,.27],antenna:[.605,.40],proboscis:[.81,.88]};
+  const Q={eye:[.455,.27],antenna:[.605,.40],proboscis:[.75,.76]};
   // camera keyframes for the dorsal layer: [progress, focusX, focusY, zoom]
   const K=[[0,.5,.5,.72],[.12,.5,.5,.9],[.22,.5,.14,2.0],[.36,.5,.42,1.2],[.50,.27,.55,1.45],[.63,.5,.66,1.35],[.72,.5,.5,1.05]];
   // which step / pins are visible over progress
@@ -253,13 +264,17 @@
     // ----- anatomy -----
     const p=cur;
     const portrait=vw<vh;
-    const cx=portrait?vw*.5:vw*.6, cy=portrait?vh*.56:vh*.5;
+    const headR=headEl.getBoundingClientRect(); const stepEl=steps.find(s=>s.classList.contains('on'));
+    const stepR=stepEl?stepEl.getBoundingClientRect():{top:vh,bottom:vh,left:0,right:0};
+    // free band for the subject: between title and panel (portrait) / right of panel (landscape)
+    const top=portrait?headR.bottom+8:70, bot=portrait?vh-panelH-24:vh-20;
+    const cx=portrait?vw*.47:vw*.62, cy=(top+bot)/2;
     const [fx,fy,zm]=camAt(p);
     const toD=placeLayer(D,fx,fy,zm*(portrait?1.15:1),cx,cy);
     // head-side macro: crossfade in at .72-.78, slow push-in, then pan to proboscis
     const hp=range(p,.72,1);
     const hfx=lerp(.48,.66,ease(range(p,.86,.95))), hfy=lerp(.5,.66,ease(range(p,.86,.95)));
-    const toH=placeLayer(H,hfx,hfy,lerp(1.05,1.45,ease(hp))*(portrait?1.6:1),cx,cy);
+    const toH=placeLayer(H,hfx,hfy,lerp(1.05,1.45,ease(hp))*(portrait?1.3:1),cx,cy);
     const xf=range(p,.72,.78);
     D.el.style.opacity=1-xf; H.el.style.opacity=xf;
     rim.style.opacity=.25+.5*Math.sin(p*Math.PI);
@@ -268,14 +283,25 @@
 
     steps.forEach((s,i)=>s.classList.toggle('on',p>=S[i][0]&&p<S[i][1]));
     pins.forEach(pn=>{const vis=p>=pn.on[0]&&p<pn.on[1]; const to=pn.at==='D'?toD:toH; const src=pn.at==='D'?P:Q;
+      const placed=[];
       pn.dom.forEach((g,j)=>{g.classList.toggle('on',vis); if(!vis)return;
-        const [x,y]=to(src[pn.pts[j]]); const side={leg:1,eye:1,wingR:1,antenna:1}; const right=side[pn.pts[j]]||(x<cx*1.02?-1:1);
-        const len=Math.min(140,vw*.1), dx=right*len, dy=-len*.45;
-        g.querySelector('.dot').style.transform=`translate(${x}px,${y}px)`;
-        const ln=g.querySelector('.ln'); ln.style.width=Math.hypot(dx,dy)+'px';
-        ln.style.transform=`translate(${x}px,${y}px) rotate(${Math.atan2(dy,dx)}rad)`;
+        const [x,y]=to(src[pn.pts[j]]); const right=pn.pts[j]==='wingL'?-1:1;
+        const len=Math.min(120,vw*.09), dx=right*len, dy=0;
         const lb=g.querySelector('.lb'); const bw=lb.offsetWidth, bh=lb.offsetHeight;
-        const lx=clamp(x+dx-(right<0?bw:0),12,vw-bw-64), ly=clamp(y+dy-bh/2,70,vh-bh-12);
+        let lx=clamp(x+dx-(right<0?bw:0),12,vw-bw-64), ly=clamp(y+dy-bh/2,Math.max(70,headR.bottom+10),vh-bh-12);
+        // keep labels off the text panel and the title block
+        if(stepEl && lx<stepR.right+8 && lx+bw>stepR.left-8 && ly+bh>stepR.top-8) ly=stepR.top-bh-12;
+        if(lx<headR.right+8 && lx+bw>headR.left-8 && ly<headR.bottom+8 && ly+bh>headR.top-8){ if(portrait) ly=headR.bottom+10; else lx=headR.right+12; }
+        for(const q of placed){ if(lx<q.r&&lx+bw>q.l&&ly<q.b+8&&ly+bh>q.t-8) ly=q.b+8; }
+        placed.push({l:lx,r:lx+bw,t:ly,b:ly+bh});
+        const inPanel=stepEl && x>stepR.left-6&&x<stepR.right+6&&y>stepR.top-6&&y<stepR.bottom+6;
+        g.style.visibility=inPanel||x<4||x>vw-4||y<4||y>vh-4?'hidden':'visible';
+        g.querySelector('.dot').style.transform=`translate(${x}px,${y}px)`;
+        // leader line: from the dot to the nearest edge-midpoint of the label
+        const ax=x<lx?lx:(x>lx+bw?lx+bw:x), ay=(ax===x)?(y<ly?ly:ly+bh):ly+bh/2;
+        const ldx=ax-x, ldy=ay-y, ln=g.querySelector('.ln');
+        ln.style.width=Math.max(0,Math.hypot(ldx,ldy)-2)+'px';
+        ln.style.transform=`translate(${x}px,${y}px) rotate(${Math.atan2(ldy,ldx)}rad)`;
         lb.style.transform=`translate(${lx}px,${ly}px)`; });});
 
     // ----- rail -----
@@ -290,8 +316,9 @@
   }
   function onScroll(){ target=progressOf(s2); if(!raf) raf=requestAnimationFrame(loop); }
   addEventListener('scroll',onScroll,{passive:true});
-  addEventListener('resize',()=>{vw=innerWidth;vh=innerHeight;onScroll();});
-  onScroll();
+  addEventListener('resize',()=>{vw=innerWidth;vh=innerHeight;measure();onScroll();});
+  measure(); onScroll();
+  document.fonts&&document.fonts.ready.then(()=>{measure();render();});
 })();
 </script>
 </body>
